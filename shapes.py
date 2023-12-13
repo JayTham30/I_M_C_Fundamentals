@@ -1,9 +1,9 @@
 import math
 
-"""#Area of a circle
+#Area of a circle
 radius = input("Enter the radius of a the circle: ")
 circle_area = math.pi * int(radius) ** 2
-print(f"The area of the circle with a radius of {radius} is: {circle_area} ")"""
+print(f"The area of the circle with a radius of {radius} is: {circle_area} ")
 
 #Area of a triangle
 base = input("Enter the base of the triangle: ")
