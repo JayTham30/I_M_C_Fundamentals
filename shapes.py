@@ -17,6 +17,8 @@ breadth = input("Enter the breadth of the rectangle: ")
 rectangle_area = int(length) * int(breadth)
 print(f"The area of the rectangle with length {length} and breadth {breadth} is: {rectangle_area}")
 """
+def area_square(side_length):
+    return side_length * 2
 
 def area_circle(radius):
     area_c = math.pi * int(radius) ** 2
@@ -29,3 +31,45 @@ def area_triangle(base, height):
 def area_rectangle(length, breadth):
     area_r = int(length) * int(breadth)
     return area_r
+
+def square_perimeter(side_length):
+    return int(side_length) * 4
+
+def circumference_circle(radius):
+    return 2 * math.pi * int(radius)
+
+def circle_details(radius):
+    circumference = circumference_circle(radius)
+    area_c = area_circle(radius)
+    return print(f"Circumference: {circumference} \nArea: {area_c}")
+
+def geometry(side_length, radius):
+    perimeter = square_perimeter(side_length)
+    circumference = circumference_circle(radius)
+
+    area_s = area_square(side_length)
+    area_c = area_circle(radius)
+
+    if perimeter > circumference:
+        print("Square has a larger perimeter.")
+    elif circumference > perimeter:
+        print("Circle has a larger circumference.")
+    else:
+        print("Circle and Square has equal circumference/perimeter")
+    
+    if area_s > area_c:
+        print("Square has a larger area.")
+    elif area_c > area_s:
+        print("Circle has a larger area.")
+    else:
+        print("Circle and Square has equal value in area.")
+
+
+print(geometry(10, 9))
+
+
+
+
+
+
+
