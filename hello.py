@@ -18,9 +18,9 @@ quotient = int(first_number) // int(second_number)
 print(f"Sum: {sum} Difference: {difference} Product: {product} Quotient: {float(quotient)}") """ #Task 3
 
 
-age = input("How old are you? ")
+"""age = input("How old are you? ")
 
 next_year = int(age) + 1
 
-print(f"Next year, you will be {next_year} years old")
+print(f"Next year, you will be {next_year} years old")""" #Task 4
 

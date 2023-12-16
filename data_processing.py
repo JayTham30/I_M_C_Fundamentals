@@ -1,4 +1,4 @@
-"""
+
 #Prompt 1
 Upercase = input("Please enter a sentence: ")
 print(Upercase.upper())
@@ -19,7 +19,7 @@ print(a_to_o.replace("a", "o"))
 name = input("Please enter your full name: ")
 initials = name.split()
 print(f"{initials[0][0]}.{initials[1][0]}".upper())
-"""
+
 #Prompt 6
 len_str = input("Please enter one more string: ")
 print(len(len_str))
