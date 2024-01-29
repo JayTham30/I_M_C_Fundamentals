@@ -1,3 +1,5 @@
+import time
+
 questions_options = {
     "What is the capital of France?":["London","Berlin","Paris","Rome"], #Paris
     'Which planet is known as the "Red Planet"?':["Earth","Mars","Jupiter","Venus"], #Mars
@@ -8,8 +10,11 @@ questions_options = {
 
 # Indexing to select specific values for answering.
  
+# creating a list to be able to grab each questions
 all_keys = list(questions_options.keys())
+# creating a list to be able to grab all answers indavidually
 all_values = list(questions_options.values())
+# Assigning indavidual list to questions
 question_1 = all_keys[0]
 question_2 = all_keys[1]
 question_3 = all_keys[2]
@@ -20,12 +25,19 @@ score = 0
 correct_ans = []
 wrong_ans = []
 
+# Main function
+quiz_time_limit = 60
+
+start_time = time.time()
+
+# Asking for users answer, while displaying questions and answer.
 user_ans1 = input(f"{question_1}\n"
               f"1.{all_values[0][0]}\n"
               f"2.{all_values[0][1]}\n" 
               f"3.{all_values[0][2]}\n" 
               f"4.{all_values[0][3]}\n" 
               "Your answer (1/2/3/4): ")
+# checks if user input("user_ans1") is correct. if correct added to "correct_ans" else adding it to "wrong_ans"
 if user_ans1 == "3":
     print("Correct!")
     score += 1
@@ -91,7 +103,12 @@ else:
     print(f"Wrong! the coorect answer is {all_values[4][0]}\n")
     wrong_ans.append(question_5)
 
+finished_time = time.time() - start_time
+if finished_time >= quiz_time_limit:
+    print("time is up! Quiz completed.")
 
+
+# prints out score and display wrong and correct answers in a list.
 print(f"You scored: {score}/5")
 
 print("Questions you got right:\n"
@@ -100,7 +117,7 @@ print("Questions you got right:\n"
 print("Questions you got wrong:\n"
       f"{wrong_ans}")
 
-
+print (f"You've finished the quiz in {finished_time} sec.")
 
 
 
