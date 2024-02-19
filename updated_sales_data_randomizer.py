@@ -1,83 +1,63 @@
 import csv
 import random
-import time
 import shutil
-from datetime import datetime
+import time
+import os
+import datetime
 
-def read_csv(file_path):
-    try:
-        with open(file_path, 'r') as file:
-            reader = csv.reader(file)
-            header = next(reader)
-            data = list(reader)
-        return header, data
-    except FileNotFoundError:
-        print(f"Error: File not found at {file_path}")
-        return None, None
-    except Exception as e:
-        print(f"Error reading file: {e}")
-        return None, None
+# Function to shuffle rows in the CSV file
+def shuffle_csv(filename):
+    # Open the CSV file for reading
+    with open(filename, 'r', newline='') as csvfile:
+        # Create a CSV reader object
+        reader = csv.reader(csvfile)
+        # Read the header row
+        header = next(reader)
+        # Read the remaining data rows into a list
+        data = list(reader)
+        # Shuffle the data rows
+        random.shuffle(data)
+    
+    # Open the CSV file for writing
+    with open(filename, 'w', newline='') as csvfile:
+        # Create a CSV writer object
+        writer = csv.writer(csvfile)
+        # Write the header row back to the file
+        writer.writerow(header)
+        # Write the shuffled data rows back to the file
+        writer.writerows(data)
 
-def write_csv(file_path, header, data):
-    try:
-        with open(file_path, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(header)
-            writer.writerows(data)
-        print(f"Data written to {file_path} successfully.")
-    except FileNotFoundError:
-        print(f"Error: File not found at {file_path}")
-    except Exception as e:
-        print(f"Error writing to file: {e}")
+# Function to backup the original file
+def backup_file(filename, backup_dir):
+    # Check if the backup directory exists, if not, create it
+    if not os.path.exists(backup_dir):
+        os.makedirs(backup_dir)
+    # Construct the backup filename based on the current date
+    backup_filename = os.path.join(backup_dir, f"backup_{datetime.date.today()}.csv")
+    # Copy the original file to the backup directory
+    shutil.copy(filename, backup_filename)
 
-def backup_original(file_path, backup_dir):
-    file_name = file_path.split("/")[-1]
-    backup_path = f"{backup_dir}/{file_name}"
-    shutil.copy2(file_path, backup_path)
-    return backup_path
-
-def shuffle_write_csv(file_path, header, data):
-    random.shuffle(data)
-    write_csv(file_path, header, data)
-
-def main(csv_file_path, backup_dir, shuffle_time, backup_interval):
-    while True:
-        current_time = datetime.now().strftime("%H:%M")
-
-        if current_time == shuffle_time:
-            today = datetime.today().strftime("%Y-%m-%d")
-            backup_done_flag = f"backup_done_{today}.txt"
-            
-            if not os.path.exists(os.path.join(backup_dir, backup_done_flag)):
-                header, data = read_csv(csv_file_path)
-
-                if header is not None and data is not None:
-                    backup_path = backup_original(csv_file_path, backup_dir)
-                    
-                    if backup_path:
-                        print(f"Backup created at: {backup_path}")
-                        
-                        shuffle_write_csv(csv_file_path, header, data)
-                        print("Data shuffled successfully.")
-                        
-                        with open(os.path.join(backup_dir, backup_done_flag), 'w') as flag_file:
-                            flag_file.write("Backup done for today.")
-
-        time.sleep(backup_interval)
-
+# Main function
+def main():
+    # Define the filename of the sales data file
+    sales_data_file = 'sales_data.csv'
+    # Define the directory for storing backup files
+    backup_directory = 'backup'
+    # Construct the backup filename based on the current date
+    backup_filename = f"backup_{datetime.date.today()}.csv"
+    
+    # Backup the original file if it hasn't been backed up today
+    if not os.path.exists(os.path.join(backup_directory, backup_filename)):
+        backup_file(sales_data_file, backup_directory)
+        print(f"Backup created: {backup_filename}")
+    
+    # Shuffle the rows of the CSV file
+    shuffle_csv(sales_data_file)
+    print("Sales data shuffled.")
+    
+# Run the main function every 10 seconds
 if __name__ == "__main__":
-    print("hello")
-
-    import os
-
-    # Configuration
-    # csv_file_path = "C:\Users\Jay Thammavongsa\IMC_Fundamentals\sales_data.csv"
-    # backup_dir = "C:\Users\Jay Thammavongsa\backup_directory"
-    csv_file_path = "C:\\Users\\Jay Thammavongsa\\IMC_Fundamentals\\sales_data.csv"
-    backup_dir = "C:\\Users\\Jay Thammavongsa\\backup_directory"
-
-    shuffle_time = "14:00"  # Time for shuffle set in a 24-hr format
-    backup_interval = 10  # Interval in seconds
-
-    # Execute the main function
-    main(csv_file_path, backup_dir, shuffle_time, backup_interval)
+    while True:
+        main()
+        # Wait for 10 seconds before repeating the operation
+        time.sleep(10)

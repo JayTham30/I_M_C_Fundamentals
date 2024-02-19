@@ -36,6 +36,7 @@ subject_questions = {
     ]
 }
 
+
 def load_questions():
     try:
         with open("subject_questions.json", "r") as file:
@@ -65,11 +66,13 @@ def add_questions():
         "options": new_options,
         "correct_answer": new_answer
     })
+
+    save_questions(subject_questions)
+
     print(subjects)
     print(subject_questions.keys())
     print(subject_questions[new_subject])
     print("Question added successfully!")
-
 
 def select_subject():
     print("Select a subject:")
@@ -121,7 +124,6 @@ def run_quiz(questions):
     print("Questions you got wrong:")
     print(f"{wrong_ans}")
     print(f"You've finished the quiz in {finished_time:.2f} sec.")
-
 
 user_menu = input("Would you like to\n1) Take a quiz\n2) Add question: ")
 
